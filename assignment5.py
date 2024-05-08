@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# 
+
+# In[8]:
+
+
+import numpy as np
+from sklearn.cluster import KMeans
+
+
+# In[2]:
+
+
+# Define the points
+points = np.array([[0.1, 0.6],
+                   [0.15, 0.71],
+                   [0.08, 0.9],
+                   [0.16, 0.85],
+                   [0.2, 0.3],
+                   [0.25, 0.5],
+                   [0.24, 0.1],
+                   [0.3, 0.2]])
+
+# Define initial centroids
+initial_centroids = np.array([[0.1, 0.6],  # m1 = P1
+                              [0.3, 0.2]]) # m2 = P8
+
+# Perform k-means clustering
+kmeans = KMeans(n_clusters=2, init=initial_centroids, n_init=1).fit(points)
+
+
+# In[6]:
+
+
+# 1) Which cluster does P6 belong to?
+p6_cluster = kmeans.predict([[0.2, 0.3]])
+print("P6 belongs to Cluster:", p6_cluster[0] + 1)
+
+
+# In[7]:
+
+
+# 2) What is the population of cluster around m2?
+m2_population = np.sum(kmeans.labels_ == 1)
+print("Population of cluster around m2:", m2_population)
+points[kmeans.labels_ == 1]
+
+
+# In[5]:
+
+
+# 3) What is updated value of m1 and m2?
+updated_centroids = kmeans.cluster_centers_
+print("Updated value of m1:", updated_centroids[0])
+print("Updated value of m2:", updated_centroids[1])
+
